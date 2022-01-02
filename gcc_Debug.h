@@ -419,6 +419,9 @@
 #ifndef __BIGGEST_ALIGNMENT__
 #define __BIGGEST_ALIGNMENT__ 8
 #endif
+#ifndef USE_HAL_DRIVER
+#define USE_HAL_DRIVER 1
+#endif
 #ifndef __STDC_UTF_16__
 #define __STDC_UTF_16__ 1
 #endif
@@ -763,6 +766,9 @@
 #ifndef __UDQ_FBIT__
 #define __UDQ_FBIT__ 64
 #endif
+#ifndef DEBUG
+#define DEBUG 1
+#endif
 #ifndef __INT8_TYPE__
 #define __INT8_TYPE__ signed char
 #endif
@@ -795,6 +801,9 @@
 #endif
 #ifndef __SACCUM_MAX__
 #define __SACCUM_MAX__ 0X7FFFP-7HK
+#endif
+#ifndef STM32F334x8
+#define STM32F334x8 1
 #endif
 #ifndef __SIG_ATOMIC_MAX__
 #define __SIG_ATOMIC_MAX__ 0x7fffffff
@@ -1378,19 +1387,23 @@
 #ifndef __ATOMIC_RELEASE
 #define __ATOMIC_RELEASE 3
 #endif
-#ifndef DEBUG
-#define DEBUG 1
-#endif
 #endif
 
 // --- Include directories begin --- //
 //.
+//$(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Inc
+//$(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Inc/Legacy
+//$(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/Core/Include
+//$(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/Device/ST/STM32F3xx/Include
+//$(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/Include
+//$(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/RTOS2/Include
 //$(TOOLCHAIN_ROOT)\arm-none-eabi\include\c++\9.3.1
 //$(TOOLCHAIN_ROOT)\arm-none-eabi\include\c++\9.3.1\arm-none-eabi\thumb\v7e-m+fp\hard
 //$(TOOLCHAIN_ROOT)\arm-none-eabi\include\c++\9.3.1\backward
 //$(TOOLCHAIN_ROOT)\lib\gcc\arm-none-eabi\9.3.1\include
 //$(TOOLCHAIN_ROOT)\lib\gcc\arm-none-eabi\9.3.1\include-fixed
 //$(TOOLCHAIN_ROOT)\arm-none-eabi\include
+//Inc
 // --- Include directories end --- //
 
 

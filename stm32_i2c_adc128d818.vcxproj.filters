@@ -13,9 +13,6 @@
       <UniqueIdentifier>{d07821bd-45cd-436d-a6d9-92460cb9f8ab}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Source files\Inc">
-      <UniqueIdentifier>{1ac214df-062f-4487-ba3a-5ca884c3bf6a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source files\Src">
       <UniqueIdentifier>{5910f566-9a6c-4a90-983e-2986583eb1eb}</UniqueIdentifier>
     </Filter>
@@ -34,9 +31,6 @@
     <Filter Include="Header files\Inc">
       <UniqueIdentifier>{63fae956-2c69-4773-84ab-13eff81db339}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header files\Src">
-      <UniqueIdentifier>{f13b0f2f-162f-4a2f-a45c-5b244eee4bf9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header files\Device-specific files">
       <UniqueIdentifier>{a1cb2655-7702-4e57-83bd-daa054320d07}</UniqueIdentifier>
     </Filter>
@@ -53,7 +47,9 @@
       <UniqueIdentifier>{8bf359e5-8f42-41b1-981b-fd3b49a71304}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\dma.c">
       <Filter>Source files\Src</Filter>
@@ -71,9 +67,6 @@
       <Filter>Source files\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\stm32f3xx_it.c">
-      <Filter>Source files\Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\system_stm32f3xx.c">
       <Filter>Source files\Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\tim.c">
@@ -658,5 +651,25 @@
     <None Include="stm32.xml">
       <Filter>VisualGDB settings</Filter>
     </None>
+    <ClCompile Include="Src\ADC128D818.cpp">
+      <Filter>Source files\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SensorReport.cpp">
+      <Filter>Source files\Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Serial.cpp">
+      <Filter>Source files\Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Inc\ADC128D818.h">
+      <Filter>Header files\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\SensorReport.h">
+      <Filter>Header files\Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Serial.h">
+      <Filter>Header files\Inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

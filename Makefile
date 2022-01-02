@@ -76,7 +76,7 @@ error:
 	$(error Invalid configuration, please check your inputs)
 endif
 
-SOURCEFILES :=
+SOURCEFILES := Src/ADC128D818.cpp Src/dma.c Src/gpio.c Src/i2c.c Src/main.c Src/SensorReport.cpp Src/Serial.cpp Src/stm32f3xx_hal_msp.c Src/stm32f3xx_it.c Src/tim.c Src/usart.c $(BSP_ROOT)/STM32F3xxxx/StartupFiles/startup_stm32f334x8.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_can.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cec.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_comp.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_crc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_crc_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dac.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dac_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_hrtim.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2s.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2s_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_irda.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_iwdg.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_nand.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_nor.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pccard.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rtc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rtc_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_sdadc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smartcard.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smartcard_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smbus.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_sram.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tsc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_usart.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_usart_ex.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_wwdg.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_adc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_comp.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_crc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dac.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_fmc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_hrtim.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_i2c.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_opamp.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_pwr.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rtc.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_spi.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usart.c $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c $(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c
 EXTERNAL_LIBS := 
 EXTERNAL_LIBS_COPIED := $(foreach lib, $(EXTERNAL_LIBS),$(BINARYDIR)/$(notdir $(lib)))
 
@@ -261,3 +261,336 @@ $(BINARYDIR)/%.o : %.cxx $(all_make_files) |$(BINARYDIR)
 	$(CC) $(CFLAGS) $(CXXFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER)F $(@:.o=.dep)
 
 #VisualGDB: GeneratedRules				#<--- All lines below are auto-generated. Remove this line to suppress auto-generation of file rules.
+
+
+$(BINARYDIR)/ADC128D818.o : Src/ADC128D818.cpp $(all_make_files) |$(BINARYDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/dma.o : Src/dma.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/gpio.o : Src/gpio.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/i2c.o : Src/i2c.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/main.o : Src/main.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/SensorReport.o : Src/SensorReport.cpp $(all_make_files) |$(BINARYDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/Serial.o : Src/Serial.cpp $(all_make_files) |$(BINARYDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_msp.o : Src/stm32f3xx_hal_msp.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_it.o : Src/stm32f3xx_it.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/tim.o : Src/tim.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/usart.o : Src/usart.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/startup_stm32f334x8.o : $(BSP_ROOT)/STM32F3xxxx/StartupFiles/startup_stm32f334x8.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_adc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_adc_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_adc_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_can.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_can.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_cec.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cec.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_comp.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_comp.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_cortex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_crc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_crc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_crc_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_crc_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_dac.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dac.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_dac_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dac_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_dma.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_exti.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_flash.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_flash_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_gpio.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_hrtim.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_hrtim.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_i2c.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_i2c_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_i2s.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2s.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_i2s_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2s_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_irda.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_irda.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_iwdg.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_iwdg.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_nand.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_nand.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_nor.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_nor.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_opamp.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_opamp_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_opamp_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_pccard.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pccard.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_pcd.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_pcd_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_pwr.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_pwr_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_rcc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_rcc_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_rtc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rtc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_rtc_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rtc_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_sdadc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_sdadc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_smartcard.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smartcard.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_smartcard_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smartcard_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_smbus.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_smbus.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_spi.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_spi_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_sram.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_sram.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_tim.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_tim_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_tsc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tsc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_uart.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_uart_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_usart.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_usart.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_usart_ex.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_usart_ex.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_hal_wwdg.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_wwdg.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_usb.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_adc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_adc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_comp.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_comp.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_crc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_crc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_dac.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dac.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_dma.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_exti.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_fmc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_fmc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_gpio.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_hrtim.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_hrtim.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_i2c.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_i2c.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_opamp.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_opamp.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_pwr.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_pwr.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_rcc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_rtc.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rtc.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_spi.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_spi.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_tim.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_tim.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_usart.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usart.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/stm32f3xx_ll_utils.o : $(BSP_ROOT)/STM32F3xxxx/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+
+
+$(BINARYDIR)/system_stm32f3xx.o : $(BSP_ROOT)/STM32F3xxxx/CMSIS_HAL/Device/ST/STM32F3xx/Source/Templates/system_stm32f3xx.c $(all_make_files) |$(BINARYDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ $(CC_DEPENDENCY_FILE_SPECIFIER) $(@:.o=.dep)
+

@@ -27,7 +27,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "SensorReport.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,7 +94,9 @@ int main(void)
   MX_TIM1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+	initializeSensorReport();
 
+	HAL_TIM_Base_Start_IT(&htim1); // will call the PeriodElapsed IT
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -102,7 +104,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  doReport();
+	  HAL_Delay(1000);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -154,7 +157,37 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void delay_us_DWT(unsigned long  uSec)
+{
+	volatile uint32_t cycles = (SystemCoreClock / 1000000L)*uSec;
+	volatile uint32_t start = DWT->CYCCNT;
+	do {
+	} while (DWT->CYCCNT - start < cycles);
+}
 
+#define SLOTS 4
+static volatile uint32_t start[4];
+
+void start_us_DWT(int slot)
+{
+	if (slot < SLOTS) {
+		start[slot] = DWT->CYCCNT;
+	}
+}
+
+unsigned int get_us_DWT(int slot)
+{
+	if (slot < SLOTS) {
+		unsigned long long val;
+		if (DWT->CYCCNT < start[slot]) {
+			val = (DWT->CYCCNT - start[slot]) + (1LL << 32);
+		} else {
+			val = (DWT->CYCCNT - start[slot]);
+		}
+		return val * 1000000L / SystemCoreClock;
+	}
+	return 0xFFFFFFFF;
+}
 /* USER CODE END 4 */
 
 /**

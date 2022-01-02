@@ -47,14 +47,16 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-
+#define USE_SERIAL 1
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+	void start_us_DWT(int slot);
+	unsigned int get_us_DWT(int slot);
+	void delay_us_DWT(unsigned long  uSec);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
