@@ -1,0 +1,10 @@
+*.old
+*.VC.db
+.mxproject
+VisualGDBCache
+Debug
+CodeDB
+.vs
+*.opendb
+*~
+.visualgdb
