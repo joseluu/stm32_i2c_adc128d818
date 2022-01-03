@@ -111,7 +111,7 @@ unsigned short TempI2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData,
 
 	if (m_u16I2CAddr) {
 		int status;
-		if (reg >= 0x20 || reg <= 0x27) {
+		if (reg >= 0x20 && reg <= 0x27) {
 			// 16 bits read temperature
 			dataSize = 2;
 		} else {

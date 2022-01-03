@@ -96,6 +96,9 @@ int main(void)
 #define CPU_CORE_FREQUENCY_HZ 64000000
   SWO_Init(0x1, CPU_CORE_FREQUENCY_HZ);
   SWO_PrintString("hello world with SWO\r\n", 0);
+
+//			ITM_SendChar('a');
+
   /* USER CODE BEGIN 2 */
 	initializeSensorReport();
 
