@@ -12,7 +12,6 @@
 //#define ADV_CONFIG_REG 0x0B
 //#define BUSY_STATUS_REG 0x0C
 
-#define READ_REG_BASE 0x20
 #define LIMIT_REG_BASE 0x2A
 
 #define TEMP_REGISTER 0x27
@@ -66,11 +65,18 @@ public:
 	void begin(void);  
 	uint8_t conversions_done(void);
 	uint16_t read(uint8_t channel);
-	float readConverted(uint8_t channel);
-	float readTemperatureConverted(void);
+
   
 	bool isActive();
       
+	static uint16_t baseAddress(int i);
+	float getTemp(uint8_t channel);
+	uint16_t readTemp(uint8_t channel);
+	float acquireTemp(uint8_t channel, bool bIT);
+	void storeTemp(uint8_t channel);
+	void storeTempDMA();
+	void setShutdown(bool newShutdown);
+
 
 private:
 
@@ -79,8 +85,11 @@ private:
 			INT_MASK_REG,
 			CONV_RATE_REG = 7,
 			CHANNEL_DISABLE_REG,
-			ADV_CONFIG_REG =0x0B,
-			BUSY_STATUS_REG = 0x0C
+			ONE_SHOT_REG,
+			DEEP_SHUTDOWN_REG,
+			ADV_CONFIG_REG = 0x0B,
+			BUSY_STATUS_REG = 0x0C,
+			TEMPERATURE_REG_BASE = 0x20
 			 } ADC128D818Register;
 	typedef union {
 		struct {
@@ -134,6 +143,14 @@ private:
 		uint8_t mbyte;
 	} BusyStatusRegister;
 
+	typedef union {
+		uint8_t mdata[2];
+		unsigned short mTempX;
+		short mTempS;
+	} TempRegister;
+
+	TempRegister m_tempRegister[8];
+	float m_fTemp[8];
 	uint8_t disabled_mask;
 	float ref_v;
 
@@ -147,15 +164,14 @@ private:
 	operation_mode_t op_mode;
 	conv_mode_t conv_mode;
 
-	unsigned short getReg(ADC128D818Register reg, uint8_t * ptrData, bool bIT);
-	void setReg(ADC128D818Register reg, unsigned newValue);
+	void initialize();
+
+	uint8_t currentChannel;
+
+	unsigned short readRegister(uint16_t reg, uint8_t * ptrData, bool bIT);
+	void writeRegister(uint16_t reg, unsigned newValue);
 
 	void initI2c();
-	void setRegisterAddress(uint8_t reg_addr);
-	void setRegister(uint8_t reg_addr, uint8_t value);
-	uint8_t readCurrentRegister8();
-
-	
 };
 
 

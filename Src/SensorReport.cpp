@@ -26,8 +26,9 @@ void sendSerial(const char* message)
 	pSerial->output.puts(message);
 }
 
-#define SENSOR_COUNT 8
+#define SENSOR_COUNT 1
 TempI2C_ADC128D818 * sensors[SENSOR_COUNT];
+#define CHANNEL_COUNT 8 // should be in object
 
 
 char * my_itoa(int n, int maxVal = 100000)
@@ -106,7 +107,7 @@ void initializeSensorReport()
 #endif
 	//scan();
 	for (int i=0; i< SENSOR_COUNT;i++){
-		sensors[i] = new TempI2C_ADC128D818(&hi2c1,TempI2C_ADC128D818::baseAddress + i);
+		sensors[i] = new TempI2C_ADC128D818(&hi2c1,TempI2C_ADC128D818::baseAddress(i));
 	}
 }
 
@@ -118,21 +119,26 @@ void doReport() {
 
 	pSerial->output.puts("temp \t");
 	for (int i = 0; i < SENSOR_COUNT; i++) {
-		temp = sensors[i]->getTemp();
-		pSerial->output.puts(my_itoa((int)temp));
-		pSerial->output.puts("\t");
+		for (int j = 0; j < CHANNEL_COUNT; j++) {
+			temp = sensors[i]->getTemp(j);
+			pSerial->output.puts(my_itoa((int)temp));
+			pSerial->output.puts("\t");
+		}
 	}
 	pSerial->output.puts("\r");
 
 }
 
 static int which;
+static int which_channel;
 void doAcquisitionStep()
 {
 	doLedToggle();
-	sensors[which++]->acquireTemp(true);
+	sensors[which++]->acquireTemp(which_channel,true);
 	if (which >= SENSOR_COUNT){
 		which = 0;
+		which_channel++;
+		which_channel %= CHANNEL_COUNT;
 	}
 }
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)

@@ -32,100 +32,123 @@ TempI2C_ADC128D818::TempI2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_add
 	ref_mode = INTERNAL_REF;
 	op_mode = SINGLE_ENDED_WITH_TEMP;
 	conv_mode = CONTINUOUS;
+	initialize();
 }
+uint16_t TempI2C_ADC128D818::baseAddress(int nTh)
+{
+	uint8_t addresses[] = { 0x1D, 0x1E, 0x1F, 0x2D, 0x2E, 0x2F, 0x35, 0x36, 0x37 };
+	return addresses[nTh];
+}
+void TempI2C_ADC128D818::initialize()
+{
+	bool isNotReady = getNotReady();
+	while (isNotReady){
+		HAL_Delay(35);
+		isNotReady = getNotReady();
+	}
+	writeRegister(CONFIG_REG, 0);
+	// Reset all
+	writeRegister(CONFIG_REG, 1 << 7);
 
+	HAL_Delay(100);
+
+	writeRegister(ADV_CONFIG_REG, ref_mode | (op_mode << 1));
+
+	writeRegister(CONV_RATE_REG, conv_mode);
+
+	writeRegister(CHANNEL_DISABLE_REG, disabled_mask);
+
+	// set start bit in configuration (interrupts disabled)
+	writeRegister(CONFIG_REG, 1);
+}
 bool TempI2C_ADC128D818::getNotReady()
 {
 	BusyStatusRegister busyReg;
-	getReg(BUSY_STATUS_REG, &busyReg.mbyte, false);
+	readRegister(BUSY_STATUS_REG, &busyReg.mbyte, false);
 
 	return (busyReg.mbits.busy);
 }
 
+
+
 //-------------------------------------------------------------------------------
-float TempI2C_ADC128D818::getTemp()
+float TempI2C_ADC128D818::getTemp(uint8_t channel)
 {
-	return m_fTemp;
+	return m_fTemp[channel];
 }
-float TempI2C_ADC128D818::acquireTemp(bool bIT)
+float TempI2C_ADC128D818::acquireTemp(uint8_t channel, bool bIT)
 {
 	int status;
 	if (bIT) {
-		m_tempRegister.mTempX = 0;
+		m_tempRegister[channel].mTempX = 0;
 	}
-	status = getReg(temp_reg,&m_tempRegister.mdata[0],bIT);
-	if (!bIT){
-		storeTemp();
-		return getTemp();
-	} 
-	return 0.0F;
+	status = readRegister(TEMPERATURE_REG_BASE + channel, &m_tempRegister[channel].mdata[0], bIT);
+	if (bIT) {
+		currentChannel = channel; // remember for DMA
+		return 0.0f;
+	} else {
+		storeTemp(channel);
+		return getTemp(channel);
+	}
 }
-void TempI2C_ADC128D818::storeTemp()
+void TempI2C_ADC128D818::storeTemp(uint8_t channel)
 {
 	uint8_t data; // we have to swap
-	data = m_tempRegister.mdata[0];
-	m_tempRegister.mdata[0] = m_tempRegister.mdata[1];
-	m_tempRegister.mdata[1] = data;
-	m_fTemp = m_tempRegister.mTempS / 256.0F;
+	data = m_tempRegister[channel].mdata[0];
+	m_tempRegister[channel].mdata[0] = m_tempRegister[channel].mdata[1];
+	m_tempRegister[channel].mdata[1] = data;
+	m_fTemp[channel] = m_tempRegister[channel].mTempS / 256.0F;
+}
+void TempI2C_ADC128D818::storeTempDMA(){
+	storeTemp(currentChannel);
 }
 //-------------------------------------------------------------------------------
 TempI2C_ADC128D818 * pSensorIT;
-unsigned short TempI2C_ADC128D818::getReg(ADC128D818Register reg, uint8_t * ptrData, bool bIT)
+unsigned short TempI2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData, bool bIT)
 {
 	unsigned short retVal = 0;
+	uint16_t dataSize;
 
 	if (m_u16I2CAddr) {
 		int status;
-		if (reg == config_reg) {
-			if (regAlreadySet) {
-				if (bIT) {
-					pSensorIT = this;
-					status = HAL_I2C_Master_Receive_DMA(m_hi2c, m_u16I2CAddr, ptrData, 1);
-				} else {
-					status = HAL_I2C_Master_Receive(m_hi2c, m_u16I2CAddr, ptrData, 1, 1000);
-				}
-			} else {
-				status = HAL_I2C_Mem_Read(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, ptrData, 1, 1000);
-			}
+		if (reg >= 0x20 || reg <= 0x27) {
+			// 16 bits read temperature
+			dataSize = 2;
+		} else {
+			dataSize = 1;
+		}
+
+		if (bIT) {
+			// using DMA and Interrupt
+			pSensorIT = this;
+			status = HAL_I2C_Mem_Read_DMA(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, ptrData, dataSize);
 			retVal = status;  
 		} else {
-			if (regAlreadySet) {
-				if (bIT) {
-					pSensorIT = this;
-					status = HAL_I2C_Master_Receive_DMA(m_hi2c, m_u16I2CAddr, ptrData, 2);
-				} else {
-					status = HAL_I2C_Master_Receive(m_hi2c, m_u16I2CAddr, ptrData, 2, 1000);
-				}
-			} else {
-				status = HAL_I2C_Mem_Read(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, ptrData, 2, 1000);
-			}
-			retVal = status;  
+			status = HAL_I2C_Mem_Read(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, ptrData, dataSize, 1000);
+			retVal = status; 
 		}
+
 	}
 	return retVal;
 }
 //-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setReg(ADC128D818Register reg, unsigned newValue)
+void TempI2C_ADC128D818::writeRegister(uint16_t reg, unsigned newValue)
 {
 	int status = HAL_ERROR;
+	uint16_t dataSize;
 
 	if (m_u16I2CAddr) {
-		// Only write HIGH the values of the ports that have been initialised as
-		// outputs updating the output shadow of the device
 		uint8_t data[3];
-		short length;
-		
+
 		data[0] = newValue & 0xFF;
-		if (reg == config_reg) {
-			data[0] = newValue;
-
-			status = HAL_I2C_Mem_Write(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, &data[0], 1, 1000);
+		if (reg < 0x20 || reg > 0x27) {
+			// 8 bits  
+			dataSize = 1;
 		} else {
-			length = 1;
+			dataSize = 2;
 			data[1] = (newValue & 0xFF00) >> 8;
-
-			status = HAL_I2C_Mem_Write(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, &data[0], 2, 1000);
 		}
+		status = HAL_I2C_Mem_Write(m_hi2c, m_u16I2CAddr, reg, I2C_MEMADD_SIZE_8BIT, &data[0], dataSize, 1000);
 	}
 	//return ((status == HAL_OK)); // HAL_OK is 0 as well
 }
@@ -133,99 +156,19 @@ void TempI2C_ADC128D818::setReg(ADC128D818Register reg, unsigned newValue)
 
 
 
-//-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setTHyst(float newTHyst)
-{
-	setReg(THyst_reg, int(newTHyst * 256));
-}
-
-//-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setTOS(float newTOS)
-{
-	setReg(TOS_reg, int(newTOS * 256));
-}
-
-//-------------------------------------------------------------------------------
-float TempI2C_ADC128D818::getTHyst(void)
-{
-	getReg(THyst_reg, & m_tempHyst.mdata[0], false);
-	return (m_tempHyst.mTempS / 256.0F);
-}
-
-//-------------------------------------------------------------------------------
-float TempI2C_ADC128D818::getTOS(void)
-{
-	getReg(THyst_reg, & m_tempOS.mdata[0], false);
-	return (m_tempOS.mTempS / 256.0F);
-}
-
-//-------------------------------------------------------------------------------
-TempI2C_ADC128D818::ThermostatMode TempI2C_ADC128D818::getThermostatMode()
-{
-	getReg(config_reg,&m_cfgRegister.mbyte,false);
-
-	return (ThermostatMode(m_cfgRegister.mbits.thermostat_mode));
-}
-
-//-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setThermostatMode(TempI2C_ADC128D818::ThermostatMode newMode)
-{
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
-
-	m_cfgRegister.mbits.thermostat_mode = newMode;
-	m_cfgRegister.mbits.reserved = 0;
-	setReg(config_reg, unsigned(m_cfgRegister.mbyte));
-}
-
-//-------------------------------------------------------------------------------
-TempI2C_ADC128D818::ThermostatFaultTolerance TempI2C_ADC128D818::getThermostatFaultTolerance()
-{
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
-
-	return (ThermostatFaultTolerance(m_cfgRegister.mbits.thermostat_fault_tolerance));
-}
-
-//-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setThermostatFaultTolerance(ThermostatFaultTolerance newFaultTolerance)
-{
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
-
-	m_cfgRegister.mbits.thermostat_fault_tolerance = newFaultTolerance;
-	m_cfgRegister.mbits.reserved = 0;
-	setReg(config_reg, unsigned(m_cfgRegister.mbyte));
-}
-
-
 
 void TempI2C_ADC128D818::setShutdown(bool newShutdown)
 {
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
+	DeepShutdownRegister reg;
 
-	m_cfgRegister.mbits.shutdown = newShutdown;
-	m_cfgRegister.mbits.reserved = 0;
-	setReg(config_reg, unsigned(m_cfgRegister.mbyte));
-}
-//-------------------------------------------------------------------------------
-TempI2C_ADC128D818::OSPolarity TempI2C_ADC128D818::getOSPolarity()
-{
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
-
-	return (OSPolarity(m_cfgRegister.mbits.thermostat_output_polarity));
+	reg.mbits.deepShutdownEnable = newShutdown;
+	writeRegister(DEEP_SHUTDOWN_REG, reg.mbyte);
 }
 
-//-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::setOSPolarity(OSPolarity newOSPolarity)
-{
-	getReg(config_reg, &m_cfgRegister.mbyte, false);
-
-	m_cfgRegister.mbits.thermostat_output_polarity = newOSPolarity;
-	m_cfgRegister.mbits.reserved = 0;
-	setReg(config_reg, unsigned(m_cfgRegister.mbyte));
-}
 
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	if (pSensorIT) {
-		pSensorIT->storeTemp();
+		pSensorIT->storeTempDMA();
 	}
 }

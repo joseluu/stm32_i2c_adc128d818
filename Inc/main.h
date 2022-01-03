@@ -54,6 +54,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+	void SWO_PrintString(const char *s, uint8_t portNumber);
+	void SWO_Init(uint32_t portBits, uint32_t cpuCoreFreqHz);
 	void start_us_DWT(int slot);
 	unsigned int get_us_DWT(int slot);
 	void delay_us_DWT(unsigned long  uSec);
