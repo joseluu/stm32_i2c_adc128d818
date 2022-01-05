@@ -91,7 +91,7 @@ void scan()
 		}
 	}
 	if (!totalDevicesFound){
-		pSerial->output.puts("No devices found\r\n");
+		pSerial->output.puts("No I2c devices found\r\n");
 	}
 }
 
@@ -108,9 +108,39 @@ void initializeSensorReport()
 	//scan();
 	for (int i=0; i< SENSOR_COUNT;i++){
 		sensors[i] = new TempI2C_ADC128D818(&hi2c1,TempI2C_ADC128D818::baseAddress(i));
+		if (! sensors[i]->isActive()) {
+#ifdef USE_SERIAL
+			pSerial->output.puts("Sensor not responding: ");
+			pSerial->output.puts(my_itoa(i));
+			pSerial->output.puts("\r\n");
+#endif
+		}
 	}
 }
 
+float mcp9700Convert(float measurement)
+{
+	// or any sensor with slope 10mV/dC like TMP235-Q1
+	float refTemp = 13.0;
+	float refV = 0.6;
+	float slope = 0.010;
+
+	float temp;
+	temp = refTemp +  (measurement - refV) / slope;
+	return temp;
+}
+
+float mcp9701Convert(float measurement)
+{
+	// or any sensor with slope 19.5mV/dC like TMP236-Q1
+	float refTemp = 13.0;
+	float refV = 0.6;
+	float slope = 0.0195;
+
+	float temp;
+	temp = refTemp +  (measurement - refV) / slope;
+	return temp;
+}
 
 static float temp;
 void doReport() {
@@ -121,7 +151,7 @@ void doReport() {
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		for (int j = 0; j < CHANNEL_COUNT; j++) {
 			temp = sensors[i]->getTemp(j);
-			pSerial->output.puts(my_itoa((int)temp));
+			pSerial->output.puts(my_itoa((int)mcp9701Convert(temp)));
 			pSerial->output.puts("\t");
 		}
 	}
@@ -134,7 +164,7 @@ static int which_channel;
 void doAcquisitionStep()
 {
 	doLedToggle();
-	sensors[which++]->acquireTemp(which_channel,true);
+	sensors[which++]->acquireTemp(which_channel,false);
 	if (which >= SENSOR_COUNT){
 		which = 0;
 		which_channel++;

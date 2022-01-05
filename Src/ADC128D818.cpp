@@ -34,6 +34,11 @@ TempI2C_ADC128D818::TempI2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_add
 	conv_mode = CONTINUOUS;
 	initialize();
 }
+
+bool TempI2C_ADC128D818::isActive()
+{
+	return m_u16I2CAddr != 0;
+}
 uint16_t TempI2C_ADC128D818::baseAddress(int nTh)
 {
 	uint8_t addresses[] = { 0x1D, 0x1E, 0x1F, 0x2D, 0x2E, 0x2F, 0x35, 0x36, 0x37 };
@@ -66,7 +71,7 @@ bool TempI2C_ADC128D818::getNotReady()
 	BusyStatusRegister busyReg;
 	readRegister(BUSY_STATUS_REG, &busyReg.mbyte, false);
 
-	return (busyReg.mbits.busy);
+	return (busyReg.mbits.notReady);
 }
 
 
@@ -97,7 +102,7 @@ void TempI2C_ADC128D818::storeTemp(uint8_t channel)
 	data = m_tempRegister[channel].mdata[0];
 	m_tempRegister[channel].mdata[0] = m_tempRegister[channel].mdata[1];
 	m_tempRegister[channel].mdata[1] = data;
-	m_fTemp[channel] = m_tempRegister[channel].mTempS / 256.0F;
+	m_fTemp[channel] = (m_tempRegister[channel].mTempS >> 4) / 4096.0f * ref_v;
 }
 void TempI2C_ADC128D818::storeTempDMA(){
 	storeTemp(currentChannel);
