@@ -44,7 +44,7 @@ enum operation_mode_t {
 	MIXED                  = 3
 };
 
-class TempI2C_ADC128D818 {
+class I2C_ADC128D818 {
 	
 public: 
 	
@@ -52,11 +52,10 @@ public:
 	typedef enum { one_samples = 0, two_samples, four_samples, six_samples } ThermostatFaultTolerance;
 	typedef enum { active_low = 0, active_high } OSPolarity;
 
-	TempI2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_addr);
+	I2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_addr);
 
 	bool getNotReady();
 
-	// Temperature and temperature ranges in degrees centigrade
 	void setReference(float ref_voltage);
 	void setReferenceMode(reference_mode_t mode);
 	void setOperationMode(operation_mode_t mode);
@@ -70,11 +69,11 @@ public:
 	bool isActive();
       
 	static uint16_t baseAddress(int i);
-	float getTemp(uint8_t channel);
-	uint16_t readTemp(uint8_t channel);
-	float acquireTemp(uint8_t channel, bool bIT);
-	void storeTemp(uint8_t channel);
-	void storeTempDMA();
+	float getVoltage(uint8_t channel);
+	uint16_t readVoltage(uint8_t channel);
+	float acquireVoltage(uint8_t channel, bool bIT);
+	void storeVoltage(uint8_t channel);
+	void storeVoltageDMA();
 	void setShutdown(bool newShutdown);
 
 
@@ -89,7 +88,7 @@ private:
 			DEEP_SHUTDOWN_REG,
 			ADV_CONFIG_REG = 0x0B,
 			BUSY_STATUS_REG = 0x0C,
-			TEMPERATURE_REG_BASE = 0x20
+			MEASUREMENT_REG_BASE = 0x20
 			 } ADC128D818Register;
 	typedef union {
 		struct {
@@ -145,12 +144,12 @@ private:
 
 	typedef union {
 		uint8_t mdata[2];
-		unsigned short mTempX;
-		short mTempS;
-	} TempRegister;
+		unsigned short mMeasurementX;
+		short mMeasurementS;
+	} MeasurementRegister;
 
-	TempRegister m_tempRegister[8];
-	float m_fTemp[8];
+	MeasurementRegister m_measurementRegister[8];
+	float m_voltage[8];
 	uint8_t disabled_mask;
 	float ref_v;
 

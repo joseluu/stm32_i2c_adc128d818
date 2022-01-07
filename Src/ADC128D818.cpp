@@ -9,7 +9,7 @@ extern "C"
 
 //-------------------------------------------------------------------------------
 
-TempI2C_ADC128D818::TempI2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_addr)
+I2C_ADC128D818::I2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_addr)
 {
 	// on STM32, I2C addresses have to be shifted 1 bit left to allow for hardware insertion of the r/w bit as the MSb
 	uint8_t _i2cAddr = (i2c_addr << 1);
@@ -30,21 +30,21 @@ TempI2C_ADC128D818::TempI2C_ADC128D818(I2C_HandleTypeDef * hi2c, uint8_t i2c_add
 
 	ref_v = 2.56f;
 	ref_mode = INTERNAL_REF;
-	op_mode = SINGLE_ENDED_WITH_TEMP;
+	op_mode = SINGLE_ENDED;
 	conv_mode = CONTINUOUS;
 	initialize();
 }
 
-bool TempI2C_ADC128D818::isActive()
+bool I2C_ADC128D818::isActive()
 {
 	return m_u16I2CAddr != 0;
 }
-uint16_t TempI2C_ADC128D818::baseAddress(int nTh)
+uint16_t I2C_ADC128D818::baseAddress(int nTh)
 {
 	uint8_t addresses[] = { 0x1D, 0x1E, 0x1F, 0x2D, 0x2E, 0x2F, 0x35, 0x36, 0x37 };
 	return addresses[nTh];
 }
-void TempI2C_ADC128D818::initialize()
+void I2C_ADC128D818::initialize()
 {
 	bool isNotReady = getNotReady();
 	while (isNotReady){
@@ -66,7 +66,7 @@ void TempI2C_ADC128D818::initialize()
 	// set start bit in configuration (interrupts disabled)
 	writeRegister(CONFIG_REG, 1);
 }
-bool TempI2C_ADC128D818::getNotReady()
+bool I2C_ADC128D818::getNotReady()
 {
 	BusyStatusRegister busyReg;
 	readRegister(BUSY_STATUS_REG, &busyReg.mbyte, false);
@@ -77,39 +77,40 @@ bool TempI2C_ADC128D818::getNotReady()
 
 
 //-------------------------------------------------------------------------------
-float TempI2C_ADC128D818::getTemp(uint8_t channel)
+float I2C_ADC128D818::getVoltage(uint8_t channel)
 {
-	return m_fTemp[channel];
+	return m_voltage[channel];
 }
-float TempI2C_ADC128D818::acquireTemp(uint8_t channel, bool bIT)
+float I2C_ADC128D818::acquireVoltage(uint8_t channel, bool bIT)
 {
 	int status;
 	if (bIT) {
-		m_tempRegister[channel].mTempX = 0;
+		m_measurementRegister[channel].mMeasurementX = 0;
 	}
-	status = readRegister(TEMPERATURE_REG_BASE + channel, &m_tempRegister[channel].mdata[0], bIT);
+	status = readRegister(MEASUREMENT_REG_BASE + channel, &m_measurementRegister[channel].mdata[0], bIT);
 	if (bIT) {
 		currentChannel = channel; // remember for DMA
 		return 0.0f;
 	} else {
-		storeTemp(channel);
-		return getTemp(channel);
+		storeVoltage(channel);
+		return getVoltage(channel);
 	}
 }
-void TempI2C_ADC128D818::storeTemp(uint8_t channel)
+void I2C_ADC128D818::storeVoltage(uint8_t channel)
 {
 	uint8_t data; // we have to swap
-	data = m_tempRegister[channel].mdata[0];
-	m_tempRegister[channel].mdata[0] = m_tempRegister[channel].mdata[1];
-	m_tempRegister[channel].mdata[1] = data;
-	m_fTemp[channel] = (m_tempRegister[channel].mTempS >> 4) / 4096.0f * ref_v;
+	data = m_measurementRegister[channel].mdata[0];
+	m_measurementRegister[channel].mdata[0] = m_measurementRegister[channel].mdata[1];
+	m_measurementRegister[channel].mdata[1] = data;
+	m_voltage[channel] = (m_measurementRegister[channel].mMeasurementX >> 4U) / 4096.0f * ref_v;
 }
-void TempI2C_ADC128D818::storeTempDMA(){
-	storeTemp(currentChannel);
+void I2C_ADC128D818::storeVoltageDMA()
+{
+	storeVoltage(currentChannel);
 }
 //-------------------------------------------------------------------------------
-TempI2C_ADC128D818 * pSensorIT;
-unsigned short TempI2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData, bool bIT)
+I2C_ADC128D818 * pSensorIT;
+unsigned short I2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData, bool bIT)
 {
 	unsigned short retVal = 0;
 	uint16_t dataSize;
@@ -117,7 +118,7 @@ unsigned short TempI2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData,
 	if (m_u16I2CAddr) {
 		int status;
 		if (reg >= 0x20 && reg <= 0x27) {
-			// 16 bits read temperature
+			// 16 bits read voltage
 			dataSize = 2;
 		} else {
 			dataSize = 1;
@@ -137,7 +138,7 @@ unsigned short TempI2C_ADC128D818::readRegister(uint16_t reg, uint8_t * ptrData,
 	return retVal;
 }
 //-------------------------------------------------------------------------------
-void TempI2C_ADC128D818::writeRegister(uint16_t reg, unsigned newValue)
+void I2C_ADC128D818::writeRegister(uint16_t reg, unsigned newValue)
 {
 	int status = HAL_ERROR;
 	uint16_t dataSize;
@@ -162,7 +163,7 @@ void TempI2C_ADC128D818::writeRegister(uint16_t reg, unsigned newValue)
 
 
 
-void TempI2C_ADC128D818::setShutdown(bool newShutdown)
+void I2C_ADC128D818::setShutdown(bool newShutdown)
 {
 	DeepShutdownRegister reg;
 
@@ -174,6 +175,6 @@ void TempI2C_ADC128D818::setShutdown(bool newShutdown)
 void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	if (pSensorIT) {
-		pSensorIT->storeTempDMA();
+		pSensorIT->storeVoltageDMA();
 	}
 }

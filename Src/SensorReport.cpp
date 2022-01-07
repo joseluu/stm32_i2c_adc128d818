@@ -27,7 +27,7 @@ void sendSerial(const char* message)
 }
 
 #define SENSOR_COUNT 1
-TempI2C_ADC128D818 * sensors[SENSOR_COUNT];
+I2C_ADC128D818 * sensors[SENSOR_COUNT];
 #define CHANNEL_COUNT 8 // should be in object
 
 
@@ -107,7 +107,7 @@ void initializeSensorReport()
 #endif
 	//scan();
 	for (int i=0; i< SENSOR_COUNT;i++){
-		sensors[i] = new TempI2C_ADC128D818(&hi2c1,TempI2C_ADC128D818::baseAddress(i));
+		sensors[i] = new I2C_ADC128D818(&hi2c1,I2C_ADC128D818::baseAddress(i));
 		if (! sensors[i]->isActive()) {
 #ifdef USE_SERIAL
 			pSerial->output.puts("Sensor not responding: ");
@@ -142,20 +142,27 @@ float mcp9701Convert(float measurement)
 	return temp;
 }
 
+static float voltage;
 static float temp;
 void doReport() {
 
 
 
-	pSerial->output.puts("temp \t");
+	pSerial->output.puts("mV \t");
 	for (int i = 0; i < SENSOR_COUNT; i++) {
 		for (int j = 0; j < CHANNEL_COUNT; j++) {
-			temp = sensors[i]->getTemp(j);
+			voltage = sensors[i]->getVoltage(j);
+			pSerial->output.puts(my_itoa((int)(voltage*1000.0)));
+			pSerial->output.puts("\t");
+		}
+		pSerial->output.puts("\r\ntemp \t");
+		for (int j = 0; j < CHANNEL_COUNT; j++) {
+			temp = sensors[i]->getVoltage(j);
 			pSerial->output.puts(my_itoa((int)mcp9701Convert(temp)));
 			pSerial->output.puts("\t");
 		}
 	}
-	pSerial->output.puts("\r");
+	pSerial->output.puts("\r\n");
 
 }
 
@@ -164,7 +171,7 @@ static int which_channel;
 void doAcquisitionStep()
 {
 	doLedToggle();
-	sensors[which++]->acquireTemp(which_channel,false);
+	sensors[which++]->acquireVoltage(which_channel,false);
 	if (which >= SENSOR_COUNT){
 		which = 0;
 		which_channel++;
